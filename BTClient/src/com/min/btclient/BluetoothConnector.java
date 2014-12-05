@@ -52,14 +52,15 @@ public class BluetoothConnector {
                 break;
             } catch (IOException e) {
                 //try the fallback
+        		adapter.cancelDiscovery();
                 try {
                     bluetoothSocket = new FallbackBluetoothSocket(bluetoothSocket.getUnderlyingSocket());
                     Thread.sleep(500);
                     bluetoothSocket.connect();
                     success = true;
-                    break;
+                    //break;
                 } catch (FallbackException e1) {
-                    Log.w("BT", "Could not initialize FallbackBluetoothSocket classes.", e);
+                    Log.w("BT", "Could not initialize FallbackBluetoothSocket classes.", e1);
                 } catch (InterruptedException e1) {
                     Log.w("BT", e1.getMessage(), e1);
                 } catch (IOException e1) {
@@ -166,14 +167,16 @@ public class BluetoothConnector {
             super(tmp);
             try
             {
+            	Log.d("createRfcommSocket", "createRfcommSocket(29)");
               Class<?> clazz = tmp.getRemoteDevice().getClass();
               Class<?>[] paramTypes = new Class<?>[] {Integer.TYPE};
               Method m = clazz.getMethod("createRfcommSocket", paramTypes);
-              Object[] params = new Object[] {Integer.valueOf(1)};
+              Object[] params = new Object[] {Integer.valueOf(29)};
               fallbackSocket = (BluetoothSocket) m.invoke(tmp.getRemoteDevice(), params);
             }
             catch (Exception e)
             {
+            	Log.d("createRfcommSocket", e.toString());
                 throw new FallbackException(e);
             }
         }

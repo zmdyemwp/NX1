@@ -45,7 +45,12 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				currDev = devs.get(arg2);
 				Intent i = new Intent();
-				i.setClass(MainActivity.this, DetailActivity.class);
+				boolean oldMode = false;
+				if(oldMode) {
+					i.setClass(MainActivity.this, DetailActivity.class);
+				} else {
+					i.setClass(MainActivity.this, MessageCenterActivity.class);
+				}
 				MainActivity.this.startActivity(i);
 			}
         	
